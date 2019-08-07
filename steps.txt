@@ -2,4 +2,5 @@
 2. Instalar o react native, iniciar o projeto
 3. Configurar a navegação da aplicação (rotas) usando react-navigation:
     yarn add react-navigation
-4. 
+4. Instala o axios pra fazer as requests pra api:
+    yarn add axios
