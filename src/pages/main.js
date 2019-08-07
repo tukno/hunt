@@ -13,7 +13,9 @@ export default class Main extends Component {
     }
 
     state = {
-        docs: []
+        productInfo: {},
+        docs: [],
+        page: 1,
     };
 
     componentDidMount(){
@@ -21,14 +23,31 @@ export default class Main extends Component {
     }
 
     //Comunica com a API e carrega os produtos
-    loadProducts = async () => {
-        const response = await api.get('/products');
-        const { docs } = response.data;
+    loadProducts = async (page = 1) => {
+        const response = await api.get(`/products?page=${ page }`);
+        const { docs, ...productInfo } = response.data;
 
-        this.setState({ docs });
+        this.setState({ 
+            docs: [...this.state.docs, ...docs], 
+            productInfo,
+            page
+        });
     }
 
-    //Render a product
+    //Ao chegar ao fim da página, carrega mais produtos da api (se houver)
+    loadMore = () => {
+        const { page, productInfo } = this.state;
+
+        //Verifico se há paginas para carregar
+        if (page === productInfo.pages) return;
+
+        //Se ainda houver páginas
+        const pageNumber = page + 1;
+
+        this.loadProducts(pageNumber);
+    }
+
+    //Renderiza um produto na tela
     renderItem = ({ item }) => (
         <View style={ styles.productContainer}>
             <Text style={ styles.productTitle }>{ item.title }</Text>
@@ -48,6 +67,8 @@ export default class Main extends Component {
                     data={ this.state.docs }
                     keyExtractor={item => item._id}
                     renderItem={ this.renderItem }
+                    onEndReached={ this.loadMore }
+                    onEndReachedThreshold={ 0.2 }
                 />
             </View>
         );
