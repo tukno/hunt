@@ -3,11 +3,11 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Main from './pages/main';
 import Product from "./pages/product";
 
-const RootStack =  createStackNavigator({
+const MainNavigator =  createStackNavigator({
     Main,
     Product
 });
 
-const MainStack = createAppContainer(RootStack);
+const App = createAppContainer(MainNavigator);
 
-export default MainStack;
+export default App;
