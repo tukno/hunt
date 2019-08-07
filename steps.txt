@@ -1,0 +1,5 @@
+1. Instalar o node.js, yarn
+2. Instalar o react native, iniciar o projeto
+3. Configurar a navegação da aplicação (rotas) usando react-navigation:
+    yarn add react-navigation
+4. 
